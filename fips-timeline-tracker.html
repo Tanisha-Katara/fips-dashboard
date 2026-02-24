@@ -243,9 +243,6 @@
         <div class="header">
             <h1>📅 FIP Status Timeline Tracker</h1>
             <p>Month-on-Month Status Change Tracking</p>
-            <div style="margin-top: 15px;">
-                <a href="fips-dashboard-static.html" style="color: white; text-decoration: underline; opacity: 0.9;">← Back to Main Dashboard</a>
-            </div>
         </div>
 
         <div class="content">
@@ -265,15 +262,15 @@
                 <div class="summary-count">5</div>
             </div>
             <div class="summary-card">
+                <div class="summary-status status-withdrawn">Withdrawn</div>
+                <div class="summary-count">3</div>
+            </div>
+            <div class="summary-card">
                 <div class="summary-status status-rejected">Rejected</div>
                 <div class="summary-count">3</div>
             </div>
             <div class="summary-card">
                 <div class="summary-status status-active">Active</div>
-                <div class="summary-count">2</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-status status-withdrawn">Withdrawn</div>
                 <div class="summary-count">2</div>
             </div>
             <div class="summary-card">
@@ -294,36 +291,6 @@
                 <h2>Status Changes Timeline</h2>
                 <div class="timeline">
                     
-                <div class="timeline-month">
-                    <div class="timeline-header">
-                        <h3>February 2025</h3>
-                        <span class="change-count">3 changes</span>
-                    </div>
-                    <div class="timeline-changes">
-                        
-                    <div class="change-item new">
-                        <span class="change-icon">➕</span>
-                        <span class="change-text">
-                            <strong>New:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0100.md" target="_blank">FIP-0100</a> - Removing Batch Balancer, Replacing It With a Per-sector Fee ...
-                            <span class="status-badge status-last-call">Last Call</span>
-                        </span>
-                    </div>
-                    <div class="change-item new">
-                        <span class="change-icon">➕</span>
-                        <span class="change-text">
-                            <strong>New:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0101.md" target="_blank">FIP-0101</a> - Removal of the ProveCommitAggregate method from the miner ac...
-                            <span class="status-badge status-draft">Draft</span>
-                        </span>
-                    </div>
-                    <div class="change-item status-change">
-                        <span class="change-icon">🔄</span>
-                        <span class="change-text">
-                            <strong>Status Change:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0098.md" target="_blank">FIP-0098</a> - Simplify termination fee calculation to a fixed pe...
-                            <span class="status-change-arrow">Last Call → Accepted</span>
-                        </span>
-                    </div>
-                    </div>
-                </div>
                 <div class="timeline-month">
                     <div class="timeline-header">
                         <h3>March 2025</h3>
@@ -594,12 +561,35 @@
                     </div>
                     </div>
                 </div>
+                <div class="timeline-month">
+                    <div class="timeline-header">
+                        <h3>January 2026</h3>
+                        <span class="change-count">2 changes</span>
+                    </div>
+                    <div class="timeline-changes">
+                        
+                    <div class="change-item new">
+                        <span class="change-icon">➕</span>
+                        <span class="change-text">
+                            <strong>New:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0111.md" target="_blank">FIP-0111</a> - Add Support for EIP-7702 (Set Code for EOAs) in the FEVM...
+                            <span class="status-badge status-draft">Draft</span>
+                        </span>
+                    </div>
+                    <div class="change-item status-change">
+                        <span class="change-icon">🔄</span>
+                        <span class="change-text">
+                            <strong>Status Change:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0064.md" target="_blank">FIP-0064</a> - Add Parameters to Base Fee Mechanism...
+                            <span class="status-change-arrow">Draft → Withdrawn</span>
+                        </span>
+                    </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
 
         <div class="last-updated">
-            Last updated: 2026-01-13 17:50:56
+            Last updated: 2026-02-24 15:15:04
         </div>
     </div>
 </body>
