@@ -9,6 +9,7 @@ import re
 from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
+from fip_utils import get_status_class, parse_fip_table
 
 GITHUB_API_BASE = 'https://api.github.com/repos/filecoin-project/FIPs'
 README_PATH = 'README.md'
@@ -40,49 +41,8 @@ def get_readme_at_commit(sha: str):
         return None
 
 def parse_fips_from_text(text: str):
-    """Parse FIPs from README text"""
-    fips = {}
-    lines = text.split('\n')
-    
-    in_table = False
-    header_found = False
-    
-    for line in lines:
-        if '| FIP #' in line and 'Status' in line:
-            header_found = True
-            in_table = True
-            continue
-        
-        if header_found and re.match(r'^\|[\s\-|:]+$', line):
-            continue
-        
-        if in_table and line.startswith('| ['):
-            parts = [p.strip() for p in line.split('|') if p.strip()]
-            
-            if len(parts) >= 5:
-                fip_match = re.search(r'\[(\d+)\]', parts[0])
-                if fip_match:
-                    number = fip_match.group(1)
-                    fip_type = parts[2] if len(parts) > 2 else 'FIP'
-                    
-                    # Only track FIPs, not FRCs
-                    if fip_type.strip().upper() == 'FIP':
-                        title = parts[1] if len(parts) > 1 else ''
-                        status = parts[4] if len(parts) > 4 else ''
-                        
-                        # Clean up status
-                        if 'Superseded' in status:
-                            status = 'Superseded'
-                        else:
-                            status = status.strip()
-                        
-                        fips[number.zfill(4)] = {
-                            'number': number.zfill(4),
-                            'title': title,
-                            'status': status
-                        }
-    
-    return fips
+    """Parse FIPs from README text, returning a dict keyed by FIP number."""
+    return {fip['number']: fip for fip in parse_fip_table(text)}
 
 def get_monthly_snapshots():
     """Get monthly snapshots of FIP statuses"""
@@ -540,29 +500,6 @@ def generate_timeline_html(monthly_snapshots: Dict, changes: List, sorted_months
 </html>'''
     
     return html
-
-def get_status_class(status):
-    """Get CSS class for status"""
-    status_lower = status.lower()
-    if 'final' in status_lower:
-        return 'status-final'
-    elif 'draft' in status_lower:
-        return 'status-draft'
-    elif 'accepted' in status_lower:
-        return 'status-accepted'
-    elif 'deferred' in status_lower:
-        return 'status-deferred'
-    elif 'rejected' in status_lower:
-        return 'status-rejected'
-    elif 'withdrawn' in status_lower:
-        return 'status-withdrawn'
-    elif 'active' in status_lower:
-        return 'status-active'
-    elif 'last call' in status_lower:
-        return 'status-last-call'
-    elif 'superseded' in status_lower:
-        return 'status-superseded'
-    return 'status-draft'
 
 def main():
     print("Fetching monthly snapshots from GitHub...")
