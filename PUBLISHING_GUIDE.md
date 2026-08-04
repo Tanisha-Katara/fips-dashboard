@@ -15,7 +15,7 @@ You can either use GitHub's web interface or Git:
 
 **Using Git (Command Line):**
 ```bash
-cd /Users/tanishakatara
+cd /path/to/your/project
 git init
 git add fips-dashboard-static.html fips-timeline-tracker.html generate_fips_dashboard.py fips_timeline_tracker.py fetch_fip_prs.py
 git commit -m "Initial commit: FIPs dashboard"

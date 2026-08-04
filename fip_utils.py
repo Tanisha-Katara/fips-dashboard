@@ -1,7 +1,37 @@
 #!/usr/bin/env python3
 """Shared utilities for FIP parsing used by dashboard scripts."""
 
+import os
 import re
+import json
+import urllib.request
+
+
+def html_escape(text):
+    """Escape HTML special characters to prevent XSS."""
+    if text is None:
+        return ''
+    text = str(text)
+    return (
+        text
+        .replace('&', '&amp;')
+        .replace('<', '&lt;')
+        .replace('>', '&gt;')
+        .replace('"', '&quot;')
+        .replace("'", '&#x27;')
+    )
+
+
+def make_github_request(url):
+    """Make an authenticated GitHub API request if GITHUB_TOKEN is available."""
+    req = urllib.request.Request(url)
+    token = os.environ.get('GITHUB_TOKEN', '')
+    if token:
+        req.add_header('Authorization', f'token {token}')
+    req.add_header('Accept', 'application/vnd.github.v3+json')
+    req.add_header('User-Agent', 'fips-dashboard')
+    with urllib.request.urlopen(req) as response:
+        return json.loads(response.read().decode('utf-8'))
 
 
 def get_status_class(status):
@@ -25,7 +55,9 @@ def get_status_class(status):
         return 'status-last-call'
     elif 'superseded' in status_lower:
         return 'status-superseded'
-    return 'status-draft'
+    else:
+        print(f"Warning: Unknown FIP status '{status}', defaulting to 'status-draft'")
+        return 'status-draft'
 
 
 def parse_fip_table(text):
