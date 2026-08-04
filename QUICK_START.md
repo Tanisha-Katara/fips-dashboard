@@ -24,7 +24,7 @@ Follow the prompts, and you're done! Your dashboard will be live in minutes.
 
 2. **Upload your files**
    ```bash
-   cd /Users/tanishakatara
+   cd /path/to/your/project
    git init
    git add *.html *.py *.md .github/
    git commit -m "Initial commit"

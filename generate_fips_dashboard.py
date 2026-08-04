@@ -8,7 +8,7 @@ import json
 import re
 from collections import defaultdict
 from datetime import datetime
-from fip_utils import get_status_class, parse_fip_table
+from fip_utils import get_status_class, parse_fip_table, html_escape, make_github_request
 
 FIPS_REPO_URL = 'https://raw.githubusercontent.com/filecoin-project/FIPs/master/README.md'
 FIPS_BASE_URL = 'https://github.com/filecoin-project/FIPs/blob/master/'
@@ -28,24 +28,39 @@ def parse_fips(text):
     return parse_fip_table(text)
 
 def fetch_open_prs():
-    """Fetch all open pull requests"""
-    url = f"{GITHUB_API_BASE}/pulls?state=open&per_page=100"
-    try:
-        with urllib.request.urlopen(url) as response:
-            prs = json.loads(response.read().decode('utf-8'))
-            return prs
-    except Exception as e:
-        print(f"Warning: Could not fetch PRs: {e}")
-        return []
+    """Fetch all open pull requests with pagination."""
+    all_prs = []
+    page = 1
+
+    while True:
+        url = f"{GITHUB_API_BASE}/pulls?state=open&per_page=100&page={page}"
+        try:
+            prs = make_github_request(url)
+            if not prs:
+                break
+            all_prs.extend(prs)
+            if len(prs) < 100:
+                break
+            page += 1
+        except Exception as e:
+            print(f"Warning: Could not fetch PRs (page {page}): {e}")
+            break
+
+    return all_prs
 
 def extract_fip_numbers(text):
-    """Extract FIP numbers from PR title, body, or branch name"""
+    """Extract FIP numbers from PR title, body, or branch name.
+
+    Requires explicit FIP prefix to avoid false positives.
+    Accepts 1-4 digit FIP numbers to avoid false negatives.
+    """
+    if not text:
+        return []
+
     fip_numbers = set()
     patterns = [
-        r'FIP[-\s]?(\d{4})',
-        r'fip[-\s]?(\d{4})',
-        r'\[(\d{4})\]',
-        r'#(\d{4})',
+        r'FIP[-\s]?(\d{1,4})',   # FIP-0001, FIP 14, FIP-5
+        r'fip[-\s]?(\d{1,4})',   # fip-0001 (lowercase)
     ]
     for pattern in patterns:
         matches = re.findall(pattern, text, re.IGNORECASE)
@@ -58,7 +73,7 @@ def process_prs(prs):
     fip_prs = {}
     for pr in prs:
         title = pr.get('title', '')
-        body = pr.get('body', '')
+        body = pr.get('body') or ''  # Guard against None
         branch = pr.get('head', {}).get('ref', '')
         search_text = f"{title} {body} {branch}"
         fip_numbers = extract_fip_numbers(search_text)
@@ -79,7 +94,7 @@ def process_prs(prs):
     return fip_prs
 
 def generate_prs_section_html(fip_prs):
-    """Generate HTML for PRs section"""
+    """Generate HTML for PRs section with XSS-safe output."""
     if not fip_prs:
         return '<div class="no-prs">No open PRs found.</div>'
     
@@ -104,15 +119,19 @@ def generate_prs_section_html(fip_prs):
     
     for fip_num in sorted_fips:
         prs = fip_prs[fip_num]
+        safe_fip = html_escape(fip_num)
         html += f'<div class="fip-pr-group">'
-        html += f'<div class="fip-pr-header"><strong>FIP-{fip_num}</strong> <span class="pr-count">({len(prs)} PR{"s" if len(prs) > 1 else ""})</span></div>'
+        html += f'<div class="fip-pr-header"><strong>FIP-{safe_fip}</strong> <span class="pr-count">({len(prs)} PR{"s" if len(prs) > 1 else ""})</span></div>'
         html += '<div class="pr-list">'
         for pr in prs:
             created_date = datetime.fromisoformat(pr['created_at'].replace('Z', '+00:00')).strftime('%Y-%m-%d')
+            safe_title = html_escape(pr['title'])
+            safe_author = html_escape(pr['author'])
+            safe_url = html_escape(pr['url'])
             html += f'''
                 <div class="pr-item">
-                    <a href="{pr['url']}" target="_blank" class="pr-link">#{pr['number']}: {pr['title']}</a>
-                    <span class="pr-meta">By @{pr['author']} • {created_date}</span>
+                    <a href="{safe_url}" target="_blank" class="pr-link">#{pr['number']}: {safe_title}</a>
+                    <span class="pr-meta">By @{safe_author} &bull; {created_date}</span>
                 </div>
             '''
         html += '</div></div>'
@@ -141,6 +160,7 @@ def generate_html(fips, fip_prs=None):
     for status in sorted_statuses:
         fips_in_status = sorted(status_groups[status], key=lambda x: int(x['number']))
         status_class = get_status_class(status)
+        safe_status = html_escape(status)
         
         # Generate FIP links (only FIPs, no FRCs)
         fip_links = []
@@ -148,20 +168,21 @@ def generate_html(fips, fip_prs=None):
             fip_path = f"FIPS/fip-{fip['number']}.md"
             url = f"{FIPS_BASE_URL}{fip_path}"
             fip_num = fip['number']
+            safe_title = html_escape(fip['title'])
             
             # Check if there are PRs for this FIP
             pr_badges = ''
             if fip_num in fip_prs:
                 pr_count = len(fip_prs[fip_num])
-                pr_badges = f' <span class="pr-badge-small" title="{pr_count} open PR{"s" if pr_count > 1 else ""}">🔀 {pr_count}</span>'
+                pr_badges = f' <span class="pr-badge-small" title="{pr_count} open PR{"s" if pr_count > 1 else ""}">&#x1f500; {pr_count}</span>'
             
-            fip_links.append(f'<a href="{url}" target="_blank" title="{fip["title"]}">FIP-{fip["number"]}</a>{pr_badges}')
+            fip_links.append(f'<a href="{url}" target="_blank" title="{safe_title}">FIP-{fip["number"]}</a>{pr_badges}')
         
         fip_links_html = '\n                            '.join(fip_links)
         
         table_rows.append(f'''
                     <tr>
-                        <td><span class="status-badge {status_class}">{status}</span></td>
+                        <td><span class="status-badge {status_class}">{safe_status}</span></td>
                         <td><span class="count">{len(fips_in_status)}</span></td>
                         <td>
                             <div class="fips-list">
@@ -181,6 +202,7 @@ def generate_html(fips, fip_prs=None):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Real-time dashboard tracking the status of all Filecoin Improvement Proposals (FIPs), including open pull requests and status changes.">
     <title>Filecoin Improvement Proposals (FIPs) Dashboard</title>
     <style>
         * {{
@@ -417,7 +439,7 @@ def generate_html(fips, fip_prs=None):
 
         .prs-section {{
             margin-top: 40px;
-            padding-top: 30px;
+            padding: 30px;
             border-top: 2px solid #e0e0e0;
         }}
 
@@ -487,17 +509,17 @@ def generate_html(fips, fip_prs=None):
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Filecoin Improvement Proposals Dashboard</h1>
+            <h1>&#x1f4ca; Filecoin Improvement Proposals Dashboard</h1>
             <p>Real-time status tracking of all FIPs</p>
             <div class="last-updated">Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</div>
         </div>
 
         <div class="controls">
             <div style="display: flex; gap: 10px;">
-                <button class="refresh-btn" onclick="location.reload()">🔄 Refresh Page</button>
-                <a href="fips-timeline-tracker.html" style="background: #28a745; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s; display: inline-block;">📅 View Timeline Tracker</a>
+                <button class="refresh-btn" onclick="location.reload()">&#x1f504; Refresh Page</button>
+                <a href="fips-timeline-tracker.html" style="background: #28a745; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s; display: inline-block;">&#x1f4c5; View Timeline Tracker</a>
             </div>
-            <div><span style="color: #28a745;">✅ Data loaded</span></div>
+            <div><span style="color: #28a745;">&#x2705; Data loaded</span></div>
         </div>
 
         <div class="stats-summary">
@@ -550,6 +572,11 @@ def main():
     print("Parsing FIPs...")
     fips = parse_fips(text)
     print(f"Found {len(fips)} FIPs")
+    
+    # Data validation: don't generate empty dashboard
+    if len(fips) == 0:
+        print("ERROR: No FIPs parsed. Aborting to avoid overwriting existing dashboard.")
+        return
     
     print("Fetching open PRs...")
     prs = fetch_open_prs()

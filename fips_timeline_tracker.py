@@ -4,12 +4,13 @@ Script to track FIP status changes month-on-month using GitHub commit history
 """
 
 import urllib.request
+import base64
 import json
 import re
 from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
-from fip_utils import get_status_class, parse_fip_table
+from fip_utils import get_status_class, parse_fip_table, html_escape, make_github_request
 
 GITHUB_API_BASE = 'https://api.github.com/repos/filecoin-project/FIPs'
 README_PATH = 'README.md'
@@ -21,9 +22,7 @@ def fetch_commits_since_date(since_date: str = None):
         url += f"&since={since_date}"
     
     try:
-        with urllib.request.urlopen(url) as response:
-            commits = json.loads(response.read().decode('utf-8'))
-            return commits
+        return make_github_request(url)
     except Exception as e:
         print(f"Error fetching commits: {e}")
         return []
@@ -32,10 +31,8 @@ def get_readme_at_commit(sha: str):
     """Get README content at a specific commit"""
     url = f"{GITHUB_API_BASE}/contents/{README_PATH}?ref={sha}"
     try:
-        with urllib.request.urlopen(url) as response:
-            content = json.loads(response.read().decode('utf-8'))
-            import base64
-            return base64.b64decode(content['content']).decode('utf-8')
+        content = make_github_request(url)
+        return base64.b64decode(content['content']).decode('utf-8')
     except Exception as e:
         print(f"Error fetching README at commit {sha}: {e}")
         return None
@@ -176,7 +173,7 @@ def generate_timeline_html(monthly_snapshots: Dict, changes: List, sorted_months
                     <div class="change-item new">
                         <span class="change-icon">➕</span>
                         <span class="change-text">
-                            <strong>New:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-{fip['number']}.md" target="_blank">FIP-{fip['number']}</a> - {fip['title'][:60]}...
+                            <strong>New:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-{fip['number']}.md" target="_blank">FIP-{fip['number']}</a> - {html_escape(fip['title'][:60])}{'...' if len(fip['title']) > 60 else ''}
                             <span class="status-badge {get_status_class(fip['status'])}">{fip['status']}</span>
                         </span>
                     </div>''')
@@ -187,7 +184,7 @@ def generate_timeline_html(monthly_snapshots: Dict, changes: List, sorted_months
                     <div class="change-item status-change">
                         <span class="change-icon">🔄</span>
                         <span class="change-text">
-                            <strong>Status Change:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-{fip['number']}.md" target="_blank">FIP-{fip['number']}</a> - {fip['title'][:50]}...
+                            <strong>Status Change:</strong> <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-{fip['number']}.md" target="_blank">FIP-{fip['number']}</a> - {html_escape(fip['title'][:50])}{'...' if len(fip['title']) > 50 else ''}
                             <span class="status-change-arrow">{fip['from']} → {fip['to']}</span>
                         </span>
                     </div>''')
@@ -198,7 +195,7 @@ def generate_timeline_html(monthly_snapshots: Dict, changes: List, sorted_months
                     <div class="change-item removed">
                         <span class="change-icon">➖</span>
                         <span class="change-text">
-                            <strong>Removed:</strong> FIP-{fip['number']} - {fip['title'][:60]}...
+                            <strong>Removed:</strong> FIP-{fip['number']} - {html_escape(fip['title'][:60])}{'...' if len(fip['title']) > 60 else ''}
                         </span>
                     </div>''')
         
@@ -515,6 +512,10 @@ def main():
     changes, sorted_months = track_status_changes(monthly_snapshots)
     
     print(f"Found {len(changes)} months with changes")
+    
+    if sorted_months and len(monthly_snapshots[sorted_months[-1]]['fips']) == 0:
+        print("Error: Latest month has 0 FIPs. Aborting.")
+        return
     
     print("Generating timeline HTML...")
     html = generate_timeline_html(monthly_snapshots, changes, sorted_months)

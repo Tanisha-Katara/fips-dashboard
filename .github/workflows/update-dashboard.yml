@@ -29,9 +29,11 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          # Add any required packages here if needed
+          # Core dashboard uses stdlib only — no pip packages needed
       
       - name: Generate Dashboard
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 generate_fips_dashboard.py
           python3 fips_timeline_tracker.py
