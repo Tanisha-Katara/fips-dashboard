@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Real-time dashboard tracking the status of all Filecoin Improvement Proposals (FIPs), including open pull requests and status changes.">
     <title>Filecoin Improvement Proposals (FIPs) Dashboard</title>
     <style>
         * {
@@ -239,7 +240,7 @@
 
         .prs-section {
             margin-top: 40px;
-            padding-top: 30px;
+            padding: 30px;
             border-top: 2px solid #e0e0e0;
         }
 
@@ -309,17 +310,17 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Filecoin Improvement Proposals Dashboard</h1>
+            <h1>&#x1f4ca; Filecoin Improvement Proposals Dashboard</h1>
             <p>Real-time status tracking of all FIPs</p>
-            <div class="last-updated">Last updated: 2026-08-04 13:42:42</div>
+            <div class="last-updated">Last updated: 2026-08-04 18:18:56</div>
         </div>
 
         <div class="controls">
             <div style="display: flex; gap: 10px;">
-                <button class="refresh-btn" onclick="location.reload()">🔄 Refresh Page</button>
-                <a href="fips-timeline-tracker.html" style="background: #28a745; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s; display: inline-block;">📅 View Timeline Tracker</a>
+                <button class="refresh-btn" onclick="location.reload()">&#x1f504; Refresh Page</button>
+                <a href="fips-timeline-tracker.html" style="background: #28a745; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s; display: inline-block;">&#x1f4c5; View Timeline Tracker</a>
             </div>
-            <div><span style="color: #28a745;">✅ Data loaded</span></div>
+            <div><span style="color: #28a745;">&#x2705; Data loaded</span></div>
         </div>
 
         <div class="stats-summary">
@@ -369,12 +370,12 @@
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0014.md" target="_blank" title="Allow V1 proof sectors to be extended up to a maximum of 540 days">FIP-0014</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0015.md" target="_blank" title="Revert FIP-0009(Exempt Window PoSts from BaseFee burn)">FIP-0015</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0018.md" target="_blank" title="New miner terminology proposal">FIP-0018</a>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0019.md" target="_blank" title="Snap Deals">FIP-0019</a> <span class="pr-badge-small" title="1 open PR">🔀 1</span>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0019.md" target="_blank" title="Snap Deals">FIP-0019</a> <span class="pr-badge-small" title="1 open PR">&#x1f500; 1</span>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0020.md" target="_blank" title="Add return value to WithdrawBalance">FIP-0020</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0021.md" target="_blank" title="Correct quality calculation on expiration">FIP-0021</a>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0022.md" target="_blank" title="Bad deals don't fail PublishStorageDeals">FIP-0022</a>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0022.md" target="_blank" title="Bad deals don&#x27;t fail PublishStorageDeals">FIP-0022</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0023.md" target="_blank" title="Break ties between tipsets of equal weights">FIP-0023</a>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0024.md" target="_blank" title="BatchBalancer & BatchDiscount Post -Hyperdrive adjustment">FIP-0024</a>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0024.md" target="_blank" title="BatchBalancer &amp; BatchDiscount Post -Hyperdrive adjustment">FIP-0024</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0026.md" target="_blank" title="Extend sector fault cutoff period from 2 weeks to 6 weeks">FIP-0026</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0027.md" target="_blank" title="Change type of DealProposal Label field from a (Golang) String to a Union">FIP-0027</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0028.md" target="_blank" title="Remove DataCap and verified client status from client address">FIP-0028</a>
@@ -408,23 +409,23 @@
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0077.md" target="_blank" title="Add Cost Opportunity For New Miner Creation">FIP-0077</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0079.md" target="_blank" title="Add BLS Aggregate Signatures to FVM">FIP-0079</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0081.md" target="_blank" title="Introduce lower bound for sector initial pledge">FIP-0081</a>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0083.md" target="_blank" title="Add built-in Actor events in the Verified Registry, Miner and Market Actors">FIP-0083</a> <span class="pr-badge-small" title="1 open PR">🔀 1</span>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0083.md" target="_blank" title="Add built-in Actor events in the Verified Registry, Miner and Market Actors">FIP-0083</a> <span class="pr-badge-small" title="1 open PR">&#x1f500; 1</span>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0084.md" target="_blank" title="Remove Storage Miner Actor Method `ProveCommitSectors`">FIP-0084</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0085.md" target="_blank" title="Convert f090 Mining Reserve actor to a keyless account actor">FIP-0085</a>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0086.md" target="_blank" title="Fast Finality in Filecoin (F3)">FIP-0086</a> <span class="pr-badge-small" title="1 open PR">🔀 1</span>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0091.md" target="_blank" title="Add support for Homestead and EIP-155 Ethereum Transactions ("legacy" Ethereum Transactions)">FIP-0091</a>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0086.md" target="_blank" title="Fast Finality in Filecoin (F3)">FIP-0086</a> <span class="pr-badge-small" title="1 open PR">&#x1f500; 1</span>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0091.md" target="_blank" title="Add support for Homestead and EIP-155 Ethereum Transactions (&quot;legacy&quot; Ethereum Transactions)">FIP-0091</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0092.md" target="_blank" title="Non-Interactive PoRep">FIP-0092</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0094.md" target="_blank" title="Add Support for EIP-5656 (MCOPY Opcode) in the FEVM">FIP-0094</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0095.md" target="_blank" title="Add FEVM precompile to fetch beacon digest from chain history">FIP-0095</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0097.md" target="_blank" title="Add Support for EIP-1153 (Transient Storage) in the FEVM">FIP-0097</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0098.md" target="_blank" title="Simplify termination fee calculation to a fixed percentage of initial pledge">FIP-0098</a>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0100.md" target="_blank" title="Removing Batch Balancer, Replacing It With a Per-sector Fee and Removing Gas-limited Constraints">FIP-0100</a>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0100.md" target="_blank" title="Removing Batch Balancer, Replacing It With a Per-sector Fee and Removing Gas-limited Constraints">FIP-0100</a> <span class="pr-badge-small" title="1 open PR">&#x1f500; 1</span>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0101.md" target="_blank" title="Removal of the ProveCommitAggregate method from the miner actor">FIP-0101</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0103.md" target="_blank" title="Removal of the ExtendSectorExpiration method from the miner actor">FIP-0103</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0105.md" target="_blank" title="Add Support for EIP-2537 (BLS12-381 Precompiles) in the FEVM">FIP-0105</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0106.md" target="_blank" title="Removal of the ProveReplicaUpdates method from the miner actor">FIP-0106</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0109.md" target="_blank" title="Enable smart contract notifications for Direct Data Onboarding (DDO)">FIP-0109</a>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0112.md" target="_blank" title="Export Sector Liveness Check to FEVM">FIP-0112</a> <span class="pr-badge-small" title="1 open PR">🔀 1</span>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0112.md" target="_blank" title="Export Sector Liveness Check to FEVM">FIP-0112</a> <span class="pr-badge-small" title="1 open PR">&#x1f500; 1</span>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0113.md" target="_blank" title="secp256r1 (P-256) P256VERIFY Precompile for FEVM">FIP-0113</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0114.md" target="_blank" title="Add Support for EIP-7939 (CLZ Opcode) in the FEVM">FIP-0114</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0115.md" target="_blank" title="Premium Percentile Base Fee Target">FIP-0115</a>
@@ -495,8 +496,8 @@
                         <td><span class="count">2</span></td>
                         <td>
                             <div class="fips-list">
-                                <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0047.md" target="_blank" title="Proof Expiration & PoRep Security Policy">FIP-0047</a>
-                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0090.md" target="_blank" title="Non-Interactive PoRep">FIP-0090</a> <span class="pr-badge-small" title="1 open PR">🔀 1</span>
+                                <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0047.md" target="_blank" title="Proof Expiration &amp; PoRep Security Policy">FIP-0047</a>
+                            <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0090.md" target="_blank" title="Non-Interactive PoRep">FIP-0090</a> <span class="pr-badge-small" title="1 open PR">&#x1f500; 1</span>
                             </div>
                         </td>
                     </tr>
@@ -505,7 +506,7 @@
                         <td><span class="count">2</span></td>
                         <td>
                             <div class="fips-list">
-                                <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0067.md" target="_blank" title="PoRep Security Policy & Replacement Sealing Enforcement">FIP-0067</a>
+                                <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0067.md" target="_blank" title="PoRep Security Policy &amp; Replacement Sealing Enforcement">FIP-0067</a>
                             <a href="https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0082.md" target="_blank" title="Add support for aggregated replica update proofs">FIP-0082</a>
                             </div>
                         </td>
@@ -522,55 +523,55 @@
             </tbody>
         </table>
 
-        <div class="prs-section"><h2>Open Pull Requests (7 total)</h2><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0019</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
+        <div class="prs-section"><h2>Open Pull Requests (8 total)</h2><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0019</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/1269" target="_blank" class="pr-link">#1269: FIP-0117: Repeated SnapDeals with Piece-Level Integrity</a>
-                    <span class="pr-meta">By @lucaniz • 2026-06-26</span>
+                    <span class="pr-meta">By @lucaniz &bull; 2026-06-26</span>
                 </div>
             </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0083</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/1269" target="_blank" class="pr-link">#1269: FIP-0117: Repeated SnapDeals with Piece-Level Integrity</a>
-                    <span class="pr-meta">By @lucaniz • 2026-06-26</span>
+                    <span class="pr-meta">By @lucaniz &bull; 2026-06-26</span>
                 </div>
             </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0086</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/1226" target="_blank" class="pr-link">#1226: update f3 FIP-0086 with deltaBackOffMax</a>
-                    <span class="pr-meta">By @hanabi1224 • 2026-01-16</span>
+                    <span class="pr-meta">By @hanabi1224 &bull; 2026-01-16</span>
                 </div>
             </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0090</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/993" target="_blank" class="pr-link">#993: FIPXXXX: Introducing sealerID</a>
-                    <span class="pr-meta">By @irenegia • 2024-04-17</span>
+                    <span class="pr-meta">By @irenegia &bull; 2024-04-17</span>
                 </div>
             </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0093</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/1039" target="_blank" class="pr-link">#1039: FIP-0093: Set the Mining Reserve to Zero</a>
-                    <span class="pr-meta">By @jnthnvctr • 2024-07-30</span>
+                    <span class="pr-meta">By @jnthnvctr &bull; 2024-07-30</span>
+                </div>
+            </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0100</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
+                <div class="pr-item">
+                    <a href="https://github.com/filecoin-project/FIPs/pull/1232" target="_blank" class="pr-link">#1232: Update  FIP 100 committee charter</a>
+                    <span class="pr-meta">By @Tanisha-fil &bull; 2026-02-08</span>
                 </div>
             </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0112</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/1259" target="_blank" class="pr-link">#1259: Fixing up old error model</a>
-                    <span class="pr-meta">By @ZenGround0 • 2026-04-14</span>
+                    <span class="pr-meta">By @ZenGround0 &bull; 2026-04-14</span>
                 </div>
             </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0117</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/1269" target="_blank" class="pr-link">#1269: FIP-0117: Repeated SnapDeals with Piece-Level Integrity</a>
-                    <span class="pr-meta">By @lucaniz • 2026-06-26</span>
+                    <span class="pr-meta">By @lucaniz &bull; 2026-06-26</span>
                 </div>
             </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-0118</strong> <span class="pr-count">(2 PRs)</span></div><div class="pr-list">
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/1272" target="_blank" class="pr-link">#1272: FIP-0118: specify f02 mechanics: pull settlement, queue, validation</a>
-                    <span class="pr-meta">By @rvagg • 2026-07-30</span>
+                    <span class="pr-meta">By @rvagg &bull; 2026-07-30</span>
                 </div>
             
                 <div class="pr-item">
                     <a href="https://github.com/filecoin-project/FIPs/pull/1271" target="_blank" class="pr-link">#1271: FIP-0118: editorial cleanup and missing sections</a>
-                    <span class="pr-meta">By @rvagg • 2026-07-30</span>
-                </div>
-            </div></div><div class="fip-pr-group"><div class="fip-pr-header"><strong>FIP-1270</strong> <span class="pr-count">(1 PR)</span></div><div class="pr-list">
-                <div class="pr-item">
-                    <a href="https://github.com/filecoin-project/FIPs/pull/1271" target="_blank" class="pr-link">#1271: FIP-0118: editorial cleanup and missing sections</a>
-                    <span class="pr-meta">By @rvagg • 2026-07-30</span>
+                    <span class="pr-meta">By @rvagg &bull; 2026-07-30</span>
                 </div>
             </div></div></div>
     </div>
